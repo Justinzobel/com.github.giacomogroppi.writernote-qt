@@ -1,12 +1,13 @@
 {
   "app-id": "com.github.giacomogroppi.writernote-qt",
   "runtime": "org.kde.Platform",
-  "runtime-version": "6.2",
+  "runtime-version": "6.9",
   "sdk": "org.kde.Sdk",
   "command": "writernote",
   "finish-args": [
     "--device=dri",
-    "--socket=x11",
+    "--socket=fallback-x11",
+    "--socket=wayland",
     "--socket=pulseaudio",
     "--share=ipc"
   ],
@@ -37,20 +38,32 @@
       ]
     },
     {
-      "name": "Poppler",
+      "name": "poppler",
       "buildsystem": "cmake-ninja",
-      "config-opts":[
-        "-DENABLE_BOOST=OFF",
-        "-DENABLE_LIBOPENJPEG=none"
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_GTK_TESTS=OFF",
+        "-DBUILD_QT5_TESTS=OFF",
+        "-DBUILD_QT6_TESTS=OFF",
+        "-DBUILD_CPP_TESTS=OFF",
+        "-DENABLE_UTILS=OFF",
+        "-DENABLE_CPP=OFF",
+        "-DENABLE_GLIB=OFF",
+        "-DENABLE_QT5=OFF",
+        "-DENABLE_QT6=ON"
       ],
-      "cleanup":[
-        "/bin"
-      ],
-      "sources":[
+      "sources": [
         {
-          "type": "git",
-          "url": "https://github.com/freedesktop/poppler.git",
-          "tag": "poppler-22.05.0"
+          "type": "archive",
+          "url": "https://poppler.freedesktop.org/poppler-25.06.0.tar.xz",
+          "sha256": "8199532d38984fab46dbd0020ec9c40f20e928e33e9b4cc6043572603a821d83",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 3686,
+            "stable-only": true,
+            "url-template": "https://poppler.freedesktop.org/poppler-$version.tar.xz"
+          }
         }
       ]
     },
